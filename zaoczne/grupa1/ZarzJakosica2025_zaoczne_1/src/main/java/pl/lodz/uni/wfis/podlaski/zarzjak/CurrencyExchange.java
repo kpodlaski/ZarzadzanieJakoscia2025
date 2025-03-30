@@ -16,6 +16,8 @@ public class CurrencyExchange {
         }
         if (source == target) return amount;
         double rate = rates.getRate(source,target);
+        // for mockito verification
+        // rate = rates.getRate(source,target);
         if (rate<=0) throw new Exception("Bad rate for this exchange");
         return amount*rate;
     }

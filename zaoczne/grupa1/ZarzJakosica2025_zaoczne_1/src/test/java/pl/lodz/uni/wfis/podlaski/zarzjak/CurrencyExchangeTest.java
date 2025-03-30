@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CurrencyExchangeTest {
 
@@ -18,7 +17,8 @@ class CurrencyExchangeTest {
     @BeforeEach
     void setUp() {
         //System.out.println("SETIING UP");
-        rates = new CurrencyRates();
+        //Wrapping up an object with mockito capabilities
+        rates = spy(new CurrencyRates());
         testTarget = new CurrencyExchange(rates);
     }
 
