@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pl.lodz.uni.wfis.podlaski.zarzjak</groupId>
-    <artifactId>ZarzJakosziaZaoczne2</artifactId>
+    <groupId>org.example</groupId>
+    <artifactId>TestyJednostkowe</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -45,5 +45,7 @@
             <version>5.17.0</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
+
 </project>

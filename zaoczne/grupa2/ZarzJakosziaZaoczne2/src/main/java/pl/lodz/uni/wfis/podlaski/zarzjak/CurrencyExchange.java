@@ -9,6 +9,7 @@ public class CurrencyExchange {
     }
     public double change(Currency source, Currency target, double amount) throws Exception {
         double rate = rateSystem.getRate(source, target);
+        //rate = rateSystem.getRate(source, target);
         if (rate<=0){
             throw new Exception("Wrong rate for this currencies");
         }
