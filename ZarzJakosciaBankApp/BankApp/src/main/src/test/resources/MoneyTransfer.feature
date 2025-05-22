@@ -1,6 +1,7 @@
 Feature: MoneyTransfer tests, account is not mocked
 
   Scenario: Internal payment, all is ok
+    Given App is fully ready to work
     Given We have user "Tomasz" with id: 1
     Given "Tomasz" have account: 2 with: 1000 pln
     Given There is an account:3 with 100 pln

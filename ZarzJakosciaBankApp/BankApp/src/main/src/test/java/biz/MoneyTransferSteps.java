@@ -1,9 +1,5 @@
-package ccucubertests;
+package biz;
 
-import biz.AccountManager;
-import biz.AuthenticationManager;
-import biz.BankHistory;
-import biz.InterestOperator;
 import db.dao.DAO;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -16,6 +12,7 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class MoneyTransferSteps {
@@ -26,6 +23,19 @@ public class MoneyTransferSteps {
     InterestOperator interest;
 
     DAO dao;
+
+    @Given("App is fully ready to work")
+    public void setUp(){
+        dao = mock(DAO.class);
+        interest = mock(InterestOperator.class);
+        history = mock(BankHistory.class);
+        auth = mock(AuthenticationManager.class);
+        target = new AccountManager();
+        target.dao = dao;
+        target.history = history;
+        target.auth = auth;
+        target.interestOperator= interest;
+    }
 
     @Given("We have user {string} with id: {int}")
     public void we_have_user_with_id(String name, Integer id) throws SQLException {
