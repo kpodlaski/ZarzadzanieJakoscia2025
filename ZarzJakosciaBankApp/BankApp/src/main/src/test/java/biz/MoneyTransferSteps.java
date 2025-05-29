@@ -68,7 +68,7 @@ public class MoneyTransferSteps {
         when(auth.canInvokeOperation(any(), any())).thenReturn(true);
     }
 
-    @When("{string} make transfer from acc: {int} to acc: {int} with amount: {int}")
+    @When("{string} make transfer from acc: {int} to acc: {int} with amount: {double}")
     public void makeTransferFromAccToAccWithAmount(String userName, int srcId, int desId, double amount) throws SQLException, OperationIsNotAllowedException {
         User  u = dao.findUserByName(userName);
         target.internalPayment(u,amount, " ",  srcId,desId);
