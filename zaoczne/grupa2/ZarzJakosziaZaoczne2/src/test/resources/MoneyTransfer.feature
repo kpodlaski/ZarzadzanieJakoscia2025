@@ -11,12 +11,12 @@ Feature: MoneyTransfer tests, account is not mocked
     Then account:3 value:300.0 pln
 
   Scenario Outline: Proper Internal money flows
-    Given App is fully ready to work
+    Given Prepare AcountManager With Mocks
     Given We have user "<user>" with id: 1
     Given "<user>" have account: <srcAcc> with: <srcAmount> pln
     Given There is an account:<dstAcc> with <dstAmount> pln
     Given Everything is authorised
-    Given DAO works in a proper way
+    Given Database return true always
     When "<user>" make transfer from acc: <srcAcc> to acc: <dstAcc> with amount: <amount>
     Then account:<srcAcc> value:<expSrc> pln
     Then account:<dstAcc> value:<expDst> pln

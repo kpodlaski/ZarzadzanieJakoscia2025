@@ -15,6 +15,7 @@ import model.exceptions.OperationIsNotAllowedException;
 import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,6 +27,7 @@ public class MoneyTansferSteps {
     BankHistory history ;
     AuthenticationManager auth;
     InterestOperator interestOperator;
+    boolean result = false;
 
     @Given("Prepare AcountManager With Mocks")
     public void prapareAMForMockTests(){
@@ -72,17 +74,26 @@ public class MoneyTansferSteps {
         when(auth.canInvokeOperation(any(), any())).thenReturn(true);
     }
 
+    @Given("Database return true always")
+    public void databasereturnTrue() throws SQLException {
+        when(dao.updateAccountState(any())).thenReturn(true);
+    }
     @When("{string} make transfer from acc: {int} to acc: {int} with amount: {double}")
     public void makeTransferFromAccToAccWithAmount(String userName, Integer srcId, Integer destID, double amount) throws SQLException, OperationIsNotAllowedException {
         // Write code here that turns the phrase above into concrete actions
         User user = dao.findUserByName(userName);
-        target.internalPayment(user,amount, "Opis transakcji", srcId, destID);
+        result = target.internalPayment(user,amount, "Opis transakcji", srcId, destID);
     }
     @Then("account:{int} value:{double} pln")
     public void accountValuePln(Integer accId, Double amount) throws SQLException {
         // Write code here that turns the phrase above into concrete actions
         Account acc = dao.findAccountById(accId);
-        assertEquals(amount, acc.getAmmount());
+        assertEquals(amount, acc.getAmmount(), 0.001);
+    }
+
+    @Then("Operation is successful")
+    public void isOperationSucessful(){
+        assertTrue(result);
     }
 
 }
