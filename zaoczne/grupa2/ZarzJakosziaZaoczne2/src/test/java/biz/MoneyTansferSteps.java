@@ -6,11 +6,15 @@ import biz.BankHistory;
 import biz.InterestOperator;
 import db.dao.DAO;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import model.Account;
 import model.User;
+import model.exceptions.OperationIsNotAllowedException;
 
 import java.sql.SQLException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -45,7 +49,7 @@ public class MoneyTansferSteps {
     }
 
     @Given("{string} have account: {int} with: {double} pln")
-    public void HaveAccountWithPln(String userName, Integer accID, double amount) throws SQLException {
+    public void haveAccountWithPln(String userName, Integer accID, double amount) throws SQLException {
         // Write code here that turns the phrase above into concrete actions
         User user = dao.findUserByName(userName);
         Account acc = new Account();
@@ -55,7 +59,7 @@ public class MoneyTansferSteps {
         when(dao.findAccountById(accID)).thenReturn(acc);
     }
     @Given("There is an account:{int} with {double} pln")
-    public void there_is_an_account_with_pln(Integer accID, double amount) throws SQLException {
+    public void thereIsAnAccountWithPln(Integer accID, double amount) throws SQLException {
         // Write code here that turns the phrase above into concrete actions
         Account acc = new Account();
         acc.setAmmount(amount);
@@ -63,20 +67,22 @@ public class MoneyTansferSteps {
         when(dao.findAccountById(accID)).thenReturn(acc);
     }
     @Given("Everything is authorised")
-    public void everything_is_authorised() {
+    public void everythingIsAuthorised() {
         // Write code here that turns the phrase above into concrete actions
         when(auth.canInvokeOperation(any(), any())).thenReturn(true);
     }
 
-    @When("{string} make transfer from acc: {int} to acc: {int} with amount: {int}")
-    public void make_transfer_from_acc_to_acc_with_amount(String string, Integer int1, Integer int2, Integer int3) {
+    @When("{string} make transfer from acc: {int} to acc: {int} with amount: {double}")
+    public void makeTransferFromAccToAccWithAmount(String userName, Integer srcId, Integer destID, double amount) throws SQLException, OperationIsNotAllowedException {
         // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        User user = dao.findUserByName(userName);
+        target.internalPayment(user,amount, "Opis transakcji", srcId, destID);
     }
     @Then("account:{int} value:{double} pln")
-    public void account_value_pln(Integer int1, Double double1) {
+    public void accountValuePln(Integer accId, Double amount) throws SQLException {
         // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        Account acc = dao.findAccountById(accId);
+        assertEquals(amount, acc.getAmmount());
     }
 
 }
